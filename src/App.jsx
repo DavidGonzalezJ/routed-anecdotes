@@ -1,8 +1,7 @@
 /* eslint-disable react/prop-types */
 import { useState } from 'react'
 import {
-  BrowserRouter as Router,
-  Routes, Route, Link, useMatch
+  Routes, Route, Link, useMatch, useNavigate
 } from 'react-router-dom'
 
 const AnecdoteList = ({ anecdotes }) => (
@@ -54,6 +53,8 @@ const CreateNew = (props) => {
   const [author, setAuthor] = useState('')
   const [info, setInfo] = useState('')
 
+  const navigate = useNavigate()
+
 
   const handleSubmit = (e) => {
     e.preventDefault()
@@ -63,6 +64,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     })
+    navigate('/')
   }
 
   return (
@@ -113,6 +115,9 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
+    console.log('KEPASA AQUI')
+    setNotification(`a new anecdote ${anecdote.content} created!`)
+    setTimeout(() => setNotification(''),5000)
   }
 
   const anecdoteById = (id) =>
@@ -142,10 +147,11 @@ const App = () => {
         <Link style={padding} to='/create'>Create new</Link>
         <Link style={padding} to='/about'>About</Link>
       </div>
+      <p>{notification}</p>
       <Routes>
         <Route path='/' element={<AnecdoteList anecdotes={anecdotes}/>} />
         <Route path='/:id' element={<Anecdote anecdote={anecdote}/>} />
-        <Route path='/create' element={<CreateNew/>} />
+        <Route path='/create' element={<CreateNew addNew={addNew}/>} />
         <Route path='/about' element={<About/>} />
       </Routes>
     <div>
