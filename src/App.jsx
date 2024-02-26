@@ -1,17 +1,9 @@
+/* eslint-disable react/prop-types */
 import { useState } from 'react'
-
-const Menu = () => {
-  const padding = {
-    paddingRight: 5
-  }
-  return (
-    <div>
-      <a href='#' style={padding}>anecdotes</a>
-      <a href='#' style={padding}>create new</a>
-      <a href='#' style={padding}>about</a>
-    </div>
-  )
-}
+import {
+  BrowserRouter as Router,
+  Routes, Route, Link
+} from 'react-router-dom'
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
@@ -84,6 +76,8 @@ const CreateNew = (props) => {
 }
 
 const App = () => {
+  const padding = { padding: 5 }
+
   const [anecdotes, setAnecdotes] = useState([
     {
       content: 'If it hurts, do it more often',
@@ -123,14 +117,24 @@ const App = () => {
   }
 
   return (
+    <>
+    <h1>Software anecdotes</h1>
+    <Router>
+      <div>
+        <Link style={padding} to='/'>Anecdotes</Link>
+        <Link style={padding} to='/create'>Create new</Link>
+        <Link style={padding} to='/about'>About</Link>
+      </div>
+      <Routes>
+        <Route path='/' element={<AnecdoteList anecdotes={anecdotes}/>} />
+        <Route path='/create' element={<CreateNew/>} />
+        <Route path='/about' element={<About/>} />
+      </Routes>
+    </Router>
     <div>
-      <h1>Software anecdotes</h1>
-      <Menu />
-      <AnecdoteList anecdotes={anecdotes} />
-      <About />
-      <CreateNew addNew={addNew} />
       <Footer />
     </div>
+    </>
   )
 }
 
