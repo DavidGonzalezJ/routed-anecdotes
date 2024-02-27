@@ -54,6 +54,20 @@ const CreateNew = (props) => {
   const author = useField('text')
   const info = useField('text')
 
+
+  // Need this method to exclude the reset function from the fields
+  const prepareForForm = (field) => {
+    const {reset, ...fieldWithoutReset} = field
+    return fieldWithoutReset
+  }
+
+  const contentInput = prepareForForm(content)
+  const authorInput = prepareForForm(author)
+  const infoInput = prepareForForm(info)
+
+
+
+
   const navigate = useNavigate()
 
 
@@ -81,15 +95,15 @@ const CreateNew = (props) => {
       <form onSubmit={handleSubmit}>
         <div>
           content
-          <input name='content' type={content.type} value={content.value} onChange={content.onChange} />
+          <input name='content' {...contentInput} />
         </div>
         <div>
           author
-          <input name='author' type={author.type} value={author.value} onChange={author.onChange} />
+          <input name='author' {...authorInput} />
         </div>
         <div>
           url for more info
-          <input name='info' type={info.type} value={info.value} onChange={info.onChange} />
+          <input name='info' {...infoInput} />
         </div>
         <button>create</button>
         <button onClick = {resetForm}>reset</button>
