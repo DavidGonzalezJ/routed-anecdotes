@@ -68,6 +68,13 @@ const CreateNew = (props) => {
     navigate('/')
   }
 
+  const resetForm = (e) => {
+    e.preventDefault()
+    content.reset()
+    author.reset()
+    info.reset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
@@ -85,6 +92,7 @@ const CreateNew = (props) => {
           <input name='info' type={info.type} value={info.value} onChange={info.onChange} />
         </div>
         <button>create</button>
+        <button onClick = {resetForm}>reset</button>
       </form>
     </div>
   )
@@ -116,7 +124,6 @@ const App = () => {
   const addNew = (anecdote) => {
     anecdote.id = Math.round(Math.random() * 10000)
     setAnecdotes(anecdotes.concat(anecdote))
-    console.log('KEPASA AQUI')
     setNotification(`a new anecdote ${anecdote.content} created!`)
     setTimeout(() => setNotification(''),5000)
   }
